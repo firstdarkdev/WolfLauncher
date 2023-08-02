@@ -160,8 +160,24 @@ namespace WolfLauncher.core
                 if (!String.IsNullOrEmpty(instance.settings.javaArgs))
                     options.JVMArguments = new string[] { instance.settings.javaArgs };
 
+                Process process;
+
                 // Set up the launcher process
-                var process = await cmLauncher.CreateProcessAsync(parseLoader(instance), options, checkAndDownload: true);
+                try
+                {
+                    process = await cmLauncher.CreateProcessAsync(parseLoader(instance), options, checkAndDownload: true);
+                } catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Failed to launch instance", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Just a safety catch
+                if (process == null)
+                {
+                    runningInstance = null;
+                    return;
+                }
 
                 // Setup console relay to log window
                 process.OutputDataReceived += (s, e) =>
