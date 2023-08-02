@@ -237,6 +237,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.mainMenu);
             this.Controls.Add(this.listView1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainLauncherForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Wolf Launcher";

@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>6409791.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CmlLib, Version=3.3.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\CmlLib.Core.3.3.7\lib\netstandard2.0\CmlLib.dll</HintPath>
@@ -255,6 +258,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="6409791.ico" />
     <Content Include="Console.ico" />
     <None Include="Resources\splash1.png" />
   </ItemGroup>
