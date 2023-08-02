@@ -31,12 +31,8 @@ namespace WolfLauncher
 
         private void Form1_LoadAsync(object sender, EventArgs e)
         {
-            // Alpha Warning. Will be removed in beta
-            MessageBox.Show("This is a very early, usable alpha version. Shit will definitely break or be broken. Don't trust your life with this", "Alpha Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            // Load player profile and instances
-            loadProfile();
-            loadInstances();
+            SplashScreen splash = new SplashScreen();
+            splash.ShowDialog(this);
         }
 
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -184,7 +180,7 @@ namespace WolfLauncher
         /**
          * Load user profile information from the Mojang API
          **/
-        private async void loadProfile()
+        public async void loadProfile()
         {
             // Check if any accounts are stored
             if (launcher.accountHandler().AccountManager.GetAccounts().Count > 0)
