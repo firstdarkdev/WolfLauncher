@@ -22,17 +22,8 @@ namespace WolfLauncher.gui.launcher
             this.Text = String.Format("{0} - {1} - {2}", "Console window for " + ins.name, LauncherConstants.LauncherName, LauncherConstants.Version);
         }
 
-        private void wrapLines_CheckedChanged(object sender, EventArgs e)
-        {
-            // Apply wordwrapping based on checkbox
-            logWindow.WordWrap = wrapLines.Checked;
-        }
-
         private void InstanceWindow_Load(object sender, EventArgs e)
         {
-            // Setup default values
-            logWindow.WordWrap = wrapLines.Checked;
-
             // Load log from logger if it exists
             LauncherLogger.INSTANCE.logWindow = this.logWindow;
             LauncherLogger.INSTANCE.loadLog(instance);
@@ -42,7 +33,7 @@ namespace WolfLauncher.gui.launcher
         private void clearLog_Click(object sender, EventArgs e)
         {
             // Clear the log
-            logWindow.Clear();
+            logWindow.ClearOutput();
             LauncherLogger.INSTANCE.clearLog();
         }
 

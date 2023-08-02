@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using WolfLauncher.gui;
 using WolfLauncher.model;
 
 /**
@@ -26,7 +28,7 @@ namespace WolfLauncher.core
         private Timer tmr;
 
         // Variables for the active Console window if any
-        public RichTextBox logWindow { get; set; }
+        public ConsoleControl.ConsoleControl logWindow { get; set; }
         public Instance loggingInstance { get; set; }
         public bool canUpdateLog { get; set; }
 
@@ -58,14 +60,27 @@ namespace WolfLauncher.core
             while (logQueue.TryDequeue(out string msg))
             {
                 sb.AppendLine(msg);
+
+                // Console window is open, so we update the log window
+                if (logWindow != null && !logWindow.IsDisposed && canUpdateLog)
+                {
+                    Color clr = Color.White;
+
+                    if (msg.ToString().Contains("INFO"))
+                        clr = Color.Cyan;
+
+                    if (msg.ToString().Contains("WARN"))
+                        clr = Color.Yellow;
+
+                    if (msg.ToString().Contains("ERROR"))
+                        clr = Color.Red;
+
+                    logWindow.WriteOutput(msg + Environment.NewLine, clr);
+                }
             }
 
             // Write to log file for persistance
             File.AppendAllText(logFile.FullName, sb.ToString());
-
-            // Console window is open, so we update the log window
-            if (logWindow != null && !logWindow.IsDisposed && canUpdateLog)
-                logWindow.AppendText(sb.ToString());
         }
 
         /**
@@ -126,15 +141,30 @@ namespace WolfLauncher.core
             if (loggingInstance != null && ins != null && ins == loggingInstance)
             {
                 // Clear old log from window if any
-                logWindow.Clear();
+                logWindow.ClearOutput();
 
                 // Check if persisted log exists
                 if (!logFile.Exists)
                     return;
 
                 // Load log from file into window
-                string log = File.ReadAllText(logFile.FullName, Encoding.UTF8);
-                logWindow.Text = log;
+                string[] log = File.ReadAllLines(logFile.FullName, Encoding.UTF8);
+                
+                foreach (var s in log)
+                {
+                    Color clr = Color.White;
+
+                    if (s.Contains("INFO"))
+                        clr = Color.Cyan;
+
+                    if (s.Contains("WARN"))
+                        clr = Color.Yellow;
+
+                    if (s.Contains("ERROR"))
+                        clr = Color.Red;
+
+                    logWindow.WriteOutput(s + Environment.NewLine, clr);
+                }
             }
         }
     }

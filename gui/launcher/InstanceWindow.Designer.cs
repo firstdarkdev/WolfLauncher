@@ -31,7 +31,7 @@
             this.logTab = new System.Windows.Forms.TabControl();
             this.logPage = new System.Windows.Forms.TabPage();
             this.logContainer = new System.Windows.Forms.Panel();
-            this.logWindow = new System.Windows.Forms.RichTextBox();
+            this.logWindow = new ConsoleControl.ConsoleControl();
             this.logPanelBottom = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.launchBtn = new System.Windows.Forms.Button();
@@ -42,7 +42,6 @@
             this.copyLog = new System.Windows.Forms.Button();
             this.uploadLog = new System.Windows.Forms.Button();
             this.clearLog = new System.Windows.Forms.Button();
-            this.wrapLines = new System.Windows.Forms.CheckBox();
             this.updateLog = new System.Windows.Forms.CheckBox();
             this.logTab.SuspendLayout();
             this.logPage.SuspendLayout();
@@ -86,15 +85,14 @@
             // 
             // logWindow
             // 
-            this.logWindow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.logWindow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.logWindow.IsInputEnabled = true;
             this.logWindow.Location = new System.Drawing.Point(0, 0);
             this.logWindow.Name = "logWindow";
-            this.logWindow.ReadOnly = true;
+            this.logWindow.SendKeyboardCommandsToProcess = false;
+            this.logWindow.ShowDiagnostics = false;
             this.logWindow.Size = new System.Drawing.Size(786, 319);
             this.logWindow.TabIndex = 1;
-            this.logWindow.Text = "";
-            this.logWindow.WordWrap = false;
             // 
             // logPanelBottom
             // 
@@ -165,7 +163,6 @@
             this.topPanel.Controls.Add(this.copyLog);
             this.topPanel.Controls.Add(this.uploadLog);
             this.topPanel.Controls.Add(this.clearLog);
-            this.topPanel.Controls.Add(this.wrapLines);
             this.topPanel.Controls.Add(this.updateLog);
             this.topPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.topPanel.Location = new System.Drawing.Point(3, 3);
@@ -206,19 +203,6 @@
             this.clearLog.UseVisualStyleBackColor = true;
             this.clearLog.Click += new System.EventHandler(this.clearLog_Click);
             // 
-            // wrapLines
-            // 
-            this.wrapLines.AutoSize = true;
-            this.wrapLines.Checked = true;
-            this.wrapLines.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.wrapLines.Location = new System.Drawing.Point(112, 8);
-            this.wrapLines.Name = "wrapLines";
-            this.wrapLines.Size = new System.Drawing.Size(80, 17);
-            this.wrapLines.TabIndex = 2;
-            this.wrapLines.Text = "Wrap Lines";
-            this.wrapLines.UseVisualStyleBackColor = true;
-            this.wrapLines.CheckedChanged += new System.EventHandler(this.wrapLines_CheckedChanged);
-            // 
             // updateLog
             // 
             this.updateLog.AutoSize = true;
@@ -257,7 +241,6 @@
         private System.Windows.Forms.TabPage logPage;
         private System.Windows.Forms.Panel topPanel;
         private System.Windows.Forms.CheckBox updateLog;
-        private System.Windows.Forms.CheckBox wrapLines;
         private System.Windows.Forms.Button clearLog;
         private System.Windows.Forms.Button uploadLog;
         private System.Windows.Forms.Button copyLog;
@@ -268,6 +251,6 @@
         private System.Windows.Forms.Button launchBtn;
         private System.Windows.Forms.Panel logContainer;
         private System.Windows.Forms.Panel logPanelBottom;
-        private System.Windows.Forms.RichTextBox logWindow;
+        private ConsoleControl.ConsoleControl logWindow;
     }
 }

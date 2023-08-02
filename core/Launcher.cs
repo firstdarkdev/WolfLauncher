@@ -34,6 +34,7 @@ namespace WolfLauncher.core
         private DirectoryInfo dataDir = new DirectoryInfo("launcherdata");
         private DirectoryInfo mcDir = new DirectoryInfo("launcherdata/minecraft");
         private MinecraftPath mcPath;
+        private FileInfo log4jFile = new FileInfo("launcherdata/log-config.xml");
 
         // Monitoring running instance
         private Instance runningInstance;
@@ -47,6 +48,9 @@ namespace WolfLauncher.core
 
             if (!mcDir.Exists)
                 mcDir.Create();
+
+            if (!log4jFile.Exists)
+                File.WriteAllText(log4jFile.FullName, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<Configuration status=\"WARN\">\r\n    <Appenders>\r\n        <Console name=\"SysOut\" target=\"SYSTEM_OUT\">\r\n            <PatternLayout pattern=\"[%d{HH:mm:ss}] [%t/%level]: %msg{nolookups}%n\" />\r\n        </Console>\r\n        <RollingRandomAccessFile name=\"File\" fileName=\"logs/latest.log\" filePattern=\"logs/%d{yyyy-MM-dd}-%i.log.gz\">\r\n            <PatternLayout pattern=\"[%d{HH:mm:ss}] [%t/%level]: %msg{nolookups}%n\" />\r\n            <Policies>\r\n                <TimeBasedTriggeringPolicy />\r\n                <OnStartupTriggeringPolicy />\r\n            </Policies>\r\n        </RollingRandomAccessFile>\r\n    </Appenders>\r\n    <Loggers>\r\n        <Root level=\"info\">\r\n            <filters>\r\n                <MarkerFilter marker=\"NETWORK_PACKETS\" onMatch=\"DENY\" onMismatch=\"NEUTRAL\" />\r\n            </filters>\r\n            <AppenderRef ref=\"SysOut\"/>\r\n            <AppenderRef ref=\"File\"/>\r\n        </Root>\r\n    </Loggers>\r\n</Configuration>");
 
             // Setup library and minecraft paths
             mcPath = new MinecraftPath(mcDir.ToString());
@@ -197,6 +201,16 @@ namespace WolfLauncher.core
                 process.StartInfo.StandardErrorEncoding = System.Text.Encoding.UTF8;
                 process.StartInfo.StandardOutputEncoding = System.Text.Encoding.UTF8;
                 process.EnableRaisingEvents = true;
+
+                // Replace log4j config, so that we can actually read it to the console
+                var arg = process.StartInfo.Arguments;
+                if (arg.IndexOf("-Dlog4j.configurationFile=") != 0)
+                {
+                    var rep = arg.Substring(arg.IndexOf("-Dlog4j.configurationFile="));
+                    rep = rep.Substring(0, rep.IndexOf(" "));
+                    arg = arg.Replace(rep, "-Dlog4j.configurationFile=" + log4jFile.FullName);
+                    process.StartInfo.Arguments = arg;
+                }
 
                 // Launch the game
                 process.Start();

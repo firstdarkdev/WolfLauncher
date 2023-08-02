@@ -44,6 +44,12 @@
     <Reference Include="CmlLib.Core.Installer.Forge, Version=0.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\CmlLib.Core.Installer.Forge.0.0.2\lib\netstandard2.0\CmlLib.Core.Installer.Forge.dll</HintPath>
     </Reference>
+    <Reference Include="ConsoleControl, Version=1.3.0.0, Culture=neutral, PublicKeyToken=7edd23586f5e297f, processorArchitecture=MSIL">
+      <HintPath>packages\ConsoleControl.1.3.0\lib\net40-client\ConsoleControl.dll</HintPath>
+    </Reference>
+    <Reference Include="ConsoleControlAPI, Version=1.3.0.0, Culture=neutral, PublicKeyToken=7c86b8a36b9c33e2, processorArchitecture=MSIL">
+      <HintPath>packages\ConsoleControlAPI.1.3.0\lib\net40\ConsoleControlAPI.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.11.48.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>packages\HtmlAgilityPack.1.11.48\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
@@ -249,6 +255,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="Console.ico" />
     <None Include="Resources\splash1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
